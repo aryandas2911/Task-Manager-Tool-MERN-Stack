@@ -100,6 +100,28 @@ export async function getCurrentUser(req, res) {
 }
 
 // Update user profile
-export async function updateProfile(req,res){
-  
+export async function updateProfile(req, res) {
+  const { name, email } = req.body;
+  if (!name || !email || !validator.isEmail(email)) {
+    res
+      .status(500)
+      .json({ success: false, message: "Valid name or email required" });
+  }
+  try {
+    const exists = await User.findOne({ email, _id: { $ne: req.user.id } });
+    if (exists) {
+      res
+        .status(500)
+        .json({ success: false, message: "Email in use by another account" });
+    }
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { name, email },
+      { new: true, runValidators: true, select: "name email" }
+    );
+    res.json({ message: true, user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 }
