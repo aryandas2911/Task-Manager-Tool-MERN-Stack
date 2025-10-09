@@ -85,12 +85,21 @@ export async function loginUser(req, res) {
   }
 }
 
-
 //Get current user
-export async function getCurrentUser(req,res){
+export async function getCurrentUser(req, res) {
   try {
-    
+    const user = await User.findById(req.user.id).select("name email");
+    if (!user) {
+      res.status(400).json({ success: false, message: "User not found" });
+    }
+    res.json({ success: true, user });
   } catch (error) {
-    
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
+}
+
+// Update user profile
+export async function updateProfile(req,res){
+  
 }
