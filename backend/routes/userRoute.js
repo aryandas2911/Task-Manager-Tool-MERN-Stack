@@ -18,3 +18,5 @@ userRouter.post("/login", loginUser);
 userRouter.get("/me", authMiddleware, getCurrentUser);
 userRouter.put("/profile", authMiddleware, updateProfile);
 userRouter.put("/password", authMiddleware, updatePassword);
+
+export default userRouter
