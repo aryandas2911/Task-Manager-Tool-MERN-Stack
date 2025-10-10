@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_here";
 const TOKEN_EXPIRES = "24h";
 
 const createToken = (userID) => {
-  jwt.sign({ id: userID }, JWT_SECRET, { expiresIn: TOKEN_EXPIRES });
+  return jwt.sign({ id: userID }, JWT_SECRET, { expiresIn: TOKEN_EXPIRES });
 };
 
 //Register user
